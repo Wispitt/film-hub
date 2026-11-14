@@ -1,10 +1,13 @@
-import logoAndName from '../../assets/logo-and-name.png';
+import { ButtonRed, ButtonWhite } from './styles';
 
-export const Header = () => {
+export const Button = ({ children, buttonPrimary }) => {
   return (
-    <div>
-      <img src={logoAndName} alt="logo-do-filmhub" style={{ width: 100 }} />
-      <div></div>
-    </div>
+    <>
+      {buttonPrimary ? (
+        <ButtonRed> {children} </ButtonRed>
+      ) : (
+        <ButtonWhite> {children} </ButtonWhite>
+      )}
+    </>
   );
 };
