@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Backgound = styled.div`
-  background-image: url(${(props) => props.urlImage});
+  background-image: url(${(props) => props.$urlImage});
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -34,14 +34,14 @@ export const Info = styled.div`
   width: 50%;
 
   h1 {
-    font-size: 5rem;
+    font-size: 3.6rem;
     max-width: 500px;
     font-weight: 700;
     color: #ffffff;
   }
 
   p {
-    font-size: 20px;
+    font-size: 1.1rem;
     font-weight: 500;
     color: #ffffff;
     margin: 20px 0 20px 0;
