@@ -12,13 +12,9 @@ export const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!changeBackground && window.scrollY > 150) {
-        setChangeBackground(true);
-      }
-      if (changeBackground && window.scrollY <= 150) {
-        setChangeBackground(false);
-      }
+      setChangeBackground(window.scrollY > 150);
     };
+    window.addEventListener('scroll', handleScroll);
     handleScroll();
 
     return () => {

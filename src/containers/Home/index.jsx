@@ -1,9 +1,17 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 
 import { Button } from '../../components/Button';
+import { Modal } from '../../components/Modal';
 import { Slider } from '../../components/Slider';
-import { api } from '../../services/apiTheMovies';
+import {
+  getMovies,
+  getPopularSeries,
+  getSeriesToday,
+  getTopMovies,
+  getTopSeries
+} from '../../services/getData';
 import { getImage } from '../../utils/baseUrlImage';
 import {
   Backgound,
@@ -14,86 +22,66 @@ import {
 } from './styles';
 
 export const Home = () => {
+  const [showModal, setShowModal] = useState(false);
   const [moviesData, setMoviesData] = useState();
   const [moviesTopData, setMoviesTopData] = useState();
   const [seriesTopData, setSeriesTopData] = useState();
   const [seriesPopularData, setSeriesPopularData] = useState();
   const [seriesTodayData, setSeriesTodayData] = useState();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    async function getMovies() {
-      try {
-        const {
-          data: { results }
-        } = await api.get('/movie/popular');
-        setMoviesData(results[10]);
-      } catch (err) {
-        console.log(err);
-      }
+    async function getAllMovies() {
+      Promise.all([
+        getMovies(),
+        getTopMovies(),
+        getTopSeries(),
+        getPopularSeries(),
+        getSeriesToday()
+      ])
+        .then(
+          ([
+            moviesData,
+            moviesTopData,
+            seriesTopData,
+            seriesPopularData,
+            seriesTodayData
+          ]) => {
+            setMoviesData(moviesData);
+            setMoviesTopData(moviesTopData);
+            setSeriesTopData(seriesTopData);
+            setSeriesPopularData(seriesPopularData);
+            setSeriesTodayData(seriesTodayData);
+          }
+        )
+        .catch((err) => console.err(err));
     }
 
-    async function getTopMovies() {
-      try {
-        const {
-          data: { results }
-        } = await api.get('/movie/top_rated');
-        setMoviesTopData(results);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    async function getTopSeries() {
-      try {
-        const {
-          data: { results }
-        } = await api.get('/tv/top_rated');
-        setSeriesTopData(results);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    async function getPopularSeries() {
-      try {
-        const {
-          data: { results }
-        } = await api.get('/tv/popular');
-        setSeriesPopularData(results);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    async function getSeriesToday() {
-      try {
-        const {
-          data: { results }
-        } = await api.get('/tv/airing_today');
-        setSeriesTodayData(results);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    getMovies();
-    getTopMovies();
-    getTopSeries();
-    getPopularSeries();
-    getSeriesToday();
+    getAllMovies();
   }, []);
 
   return (
     <>
       {moviesData && (
         <Backgound $urlImage={getImage(moviesData.backdrop_path)}>
+          {showModal && (
+            <Modal movie={moviesData} setShowModal={setShowModal} />
+          )}
           <Contant>
             <Info>
               <h1> {moviesData.title} </h1>
               <p> {moviesData.overview} </p>
               <ContainerButtons>
-                <Button buttonPrimary>Assistir agora</Button>
-                <Button>Assistir o Trailer</Button>
+                <Button
+                  onClick={() => navigate(`/detail/${moviesData.id}`)}
+                  buttonPrimary
+                >
+                  Assistir agora
+                </Button>
+                <Button onClick={() => setShowModal(true)}>
+                  Assistir o Trailer
+                </Button>
               </ContainerButtons>
             </Info>
 

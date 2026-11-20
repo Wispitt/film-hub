@@ -11,5 +11,6 @@ export const Container = styled.div`
 
   .swiper-slide {
     width: 300px;
+    padding-bottom: 15px;
   }
 `;

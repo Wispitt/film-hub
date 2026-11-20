@@ -14,9 +14,8 @@ export const Container = styled.div`
 `;
 
 export const LogoHeader = styled.img`
-  width: 30%;
-  position: relative;
-  left: -50px;
+  width: 25%;
+  margin-left: -40px;
 `;
 
 export const ContantLinks = styled.ul`
