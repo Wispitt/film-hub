@@ -23,7 +23,7 @@ export const Modal = ({ movie, setShowModal }) => {
           <Container>
             <MdClose className="close" onClick={() => setShowModal(false)} />
             <iframe
-              src={getVideo(moviesData.key)}
+              src={getVideo(moviesData[0].key)}
               title={movie.title}
               height="500px"
               width="100%"

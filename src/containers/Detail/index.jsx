@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router';
 
 import { Credits } from '../../components/Credits';
+import { Slider } from '../../components/Slider';
 import { SpanGenres } from '../../components/SpanGenres';
 import {
   getMovieById,
@@ -11,8 +12,8 @@ import {
   getMovieVideos
 } from '../../services/getData';
 import { getImage } from '../../utils/baseUrlImage';
-import { Container, Background, Cover, Info, ContainerMovies } from './styles';
 import { getVideo } from '../../utils/baseUrlYoutube';
+import { Container, Background, Cover, Info, ContainerMovies } from './styles';
 
 export const Detail = () => {
   const [movieData, setMovieData] = useState();
@@ -76,6 +77,10 @@ export const Detail = () => {
                 </div>
               ))}
           </ContainerMovies>
+
+          <div>
+            {movieSimilar && <Slider info={movieSimilar} title="Similares" />}
+          </div>
         </>
       )}
     </>

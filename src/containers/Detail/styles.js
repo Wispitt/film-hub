@@ -88,7 +88,7 @@ export const ContainerMovies = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  width: 100%;
+  gap: 60px;
 
   div {
     display: flex;
